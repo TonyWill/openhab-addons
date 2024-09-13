@@ -20,7 +20,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
  * @author Jacek Dobrowolski - Initial contribution
  */
 @NonNullByDefault
-public class MideaACConfiguration {
+public class 5MideaACConfiguration {
 
     private String ipAddress = "";
 
@@ -72,20 +72,6 @@ public class MideaACConfiguration {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    private int reauth;
-
-    /**
-     * @param reauth interval to get new key
-     *            and token. Get/Set. 0 = never
-     */
-    public Integer getReauth() {
-        return reauth;
-    }
-
-    public void setReauth(Integer reauth) {
-        this.reauth = reauth;
     }
 
     private String password = "";
