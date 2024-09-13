@@ -825,6 +825,9 @@ public class MideaACHandler extends BaseThingHandler implements DiscoveryHandler
     public class ConnectionManager {
         private Logger logger = LoggerFactory.getLogger(ConnectionManager.class);
 
+        private TemperatureHandler indoorTemperatureHandler = new TemperatureHandler();
+        private TemperatureHandler outdoorTemperatureHandler = new TemperatureHandler();
+
         private boolean deviceIsConnected;
         private int droppedCommands = 0;
 
@@ -1364,10 +1367,14 @@ public class MideaACHandler extends BaseThingHandler implements DiscoveryHandler
             updateChannel(CHANNEL_NIGHT_LIGHT, response.getNightLight() ? OnOffType.ON : OnOffType.OFF);
             updateChannel(CHANNEL_PEAK_ELEC, response.getPeakElec() ? OnOffType.ON : OnOffType.OFF);
             updateChannel(CHANNEL_NATURAL_FAN, response.getNaturalFan() ? OnOffType.ON : OnOffType.OFF);
-            updateChannel(CHANNEL_INDOOR_TEMPERATURE, new QuantityType<Temperature>(response.getIndoorTemperature(),
-                    response.getTempUnit() ? ImperialUnits.FAHRENHEIT : SIUnits.CELSIUS));
-            updateChannel(CHANNEL_OUTDOOR_TEMPERATURE, new QuantityType<Temperature>(response.getOutdoorTemperature(),
-                    response.getTempUnit() ? ImperialUnits.FAHRENHEIT : SIUnits.CELSIUS));
+            updateChannel(CHANNEL_INDOOR_TEMPERATURE,
+                    new QuantityType<Temperature>(
+                            indoorTemperatureHandler.filterTemperature(response.getIndoorTemperature()),
+                            response.getTempUnit() ? ImperialUnits.FAHRENHEIT : SIUnits.CELSIUS));
+            updateChannel(CHANNEL_OUTDOOR_TEMPERATURE,
+                    new QuantityType<Temperature>(
+                            outdoorTemperatureHandler.filterTemperature(response.getOutdoorTemperature()),
+                            response.getTempUnit() ? ImperialUnits.FAHRENHEIT : SIUnits.CELSIUS));
             updateChannel(CHANNEL_HUMIDITY, new DecimalType(response.getHumidity()));
         }
 
