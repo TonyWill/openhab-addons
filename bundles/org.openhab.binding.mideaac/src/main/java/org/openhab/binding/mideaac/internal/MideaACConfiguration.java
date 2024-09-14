@@ -20,7 +20,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
  * @author Jacek Dobrowolski - Initial contribution
  */
 @NonNullByDefault
-public class 5MideaACConfiguration {
+public class MideaACConfiguration {
 
     private String ipAddress = "";
 

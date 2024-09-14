@@ -15,6 +15,7 @@ public class TemperatureHandler {
     private int TEMPERATURE_BUFFER_SIZE = 5;
     private int TEMPERATURE_THRESHOLD = 10;
     private int MAX_BAD_READINGS = 1;
+    private int BASELINE_NUMBER = 3; // The amount of consecutive similar readings needed to establish a baselins
 
     private float[] temperatureBuffer;
     private int bufferIndex;
@@ -50,11 +51,11 @@ public class TemperatureHandler {
     }
 
     public Float filterTemperature(float newReading) {
-
+        
         if (logger != null)
             logger.trace("Filtering {} baseline {} readingsCount {}", newReading, baselineAverage, readingsCount);
         // Update baseline average periodically
-        if (isBaselineEstablished && readingsCount >= (TEMPERATURE_BUFFER_SIZE)) {
+        if (isBaselineEstablished && readingsCount >= BASELINE_NUMBER) {
             baselineAverage = calculateAverage(temperatureBuffer, TEMPERATURE_BUFFER_SIZE);
             readingsCount = 0;
             if (logger != null)
@@ -62,7 +63,7 @@ public class TemperatureHandler {
         }
 
         // Establish baseline average
-        if (!isBaselineEstablished && readingsCount < TEMPERATURE_BUFFER_SIZE) {
+        if (!isBaselineEstablished && readingsCount < BASELINE_NUMBER) {
 
             if (readingsCount == 0) {
                 baselineAverage = newReading;
@@ -86,18 +87,23 @@ public class TemperatureHandler {
                         baselineAverage = calculateAverage(temperatureBuffer, readingsCount);
                     }
                 } else {
-                    temperatureBuffer[readingsCount] = newReading;
-                    readingsCount++;
-                    consecutiveBadReadings = 0;
-                    baselineAverage = calculateAverage(temperatureBuffer, readingsCount);
+                    if (newReading != 0) {
+                        temperatureBuffer[readingsCount] = newReading;
+                        readingsCount++;
+                        consecutiveBadReadings = 0;
+                        baselineAverage = calculateAverage(temperatureBuffer, readingsCount);
+                    }
                 }
 
                 if (logger != null)
                     logger.trace("Current Baseline: {} Current Count: {}", baselineAverage, readingsCount);
 
-                if (readingsCount >= TEMPERATURE_BUFFER_SIZE) {
+                if (readingsCount >= BASELINE_NUMBER) {
                     baselineAverage = calculateAverage(temperatureBuffer, readingsCount);
-                    isBaselineEstablished = true;
+                    if (baselineAverage != 0) {
+                        isBaselineEstablished = true;
+                        bufferIndex = readingsCount;
+                    }                    
                     readingsCount = 0;
                     if (logger != null)
                         logger.debug("New Baseline Temperature Established: {}", baselineAverage);
@@ -111,6 +117,8 @@ public class TemperatureHandler {
         // temperature is returning 0
         if (newReading != 0 && Math.abs(newReading - baselineAverage) > TEMPERATURE_THRESHOLD) {
             if (baselineAverage == 0) {
+                baselineAverage = newReading;
+                isBaselineEstablished = false;
                 temperatureBuffer[bufferIndex] = newReading;
                 bufferIndex = (bufferIndex + 1) % temperatureBuffer.length;
                 readingsCount++; // Valid reading increments reading count
