@@ -12,8 +12,8 @@ public class TemperatureHandlerTest {
         // Test data with various scenarios
         float[] inputValues = { 25, 30, 28, 27, 32, 10.0f, 35.0f, 40.0f, 32, 31, 50.0f, 30, 26, 34.0f, 28, 42, 0, 0, 0,
                 0, 0, 32, 32.4f, 31.8f, 40, 45, 31.4f };
-        float[] expectedOutputs = { 25, 30, 28, 27, 32, 27.66f, 35.0f, 40, 32, 31, 34f, 30, 26, 34f, 28, 30.6f, 0,
-                0, 0, 0, 0, 32, 32.4f, 31.8f, 40, 30.68f, 31.4f }; // Assuming a threshold of 10
+        float[] expectedOutputs = { 25, 30, 28, 27, 32, 27.66f, 35.0f, 40, 32, 31, 34f, 30, 26, 34f, 28, 30.6f, 0, 0, 0,
+                0, 0, 32, 32.4f, 31.8f, 40, 30.68f, 31.4f }; // Assuming a threshold of 10
 
         for (int i = 0; i < inputValues.length; i++) {
             // System.out.println("input - expected output: "+inputValues[i]+" - "+expectedOutputs[i]);
@@ -28,10 +28,10 @@ public class TemperatureHandlerTest {
         TemperatureHandler handler = new TemperatureHandler();
 
         // Test data with various scenarios
-        float[] inputValues = { 0, 0, 0, 40.0f, 32, 31, 40.0f, 30, 20, 34.0f, 28, 42, 0, 0, 0, 0, 0, 32,
-                32.4f, 31.8f, 50, 45.3f, 45.28f, 45.29f };
-        float[] expectedOutputs = { 0, 0, 0, 40.0f, 32, 31, 40.0f, 30, 34.33f, 34f, 28, 42, 0, 0, 0, 0, 0,
-                32, 32.4f, 31.8f, 33.68f, 33.68f, 33.68f, 33.68f }; // Assuming a threshold of 10
+        float[] inputValues = { 0, 0, 0, 40.0f, 32, 31, 40.0f, 30, 20, 34.0f, 28, 42, 0, 0, 0, 0, 0, 32, 32.4f, 31.8f,
+                50, 45.3f, 45.28f, 45.29f };
+        float[] expectedOutputs = { 0, 0, 0, 40.0f, 32, 31, 40.0f, 30, 34.33f, 34f, 28, 42, 0, 0, 0, 0, 0, 32, 32.4f,
+                31.8f, 33.68f, 33.68f, 33.68f, 33.68f }; // Assuming a threshold of 10
 
         for (int i = 0; i < inputValues.length; i++) {
             // System.out.println("input - expected output: "+inputValues[i]+" - "+expectedOutputs[i]);
@@ -71,8 +71,8 @@ public class TemperatureHandlerTest {
                 0, 0, 0, 0, 32, 32.4f, 31.8f, 40, 32.48f, 31.4f }; // Assuming a threshold of 10
         float[] inputValues_2 = { 35, 32, 28, 29, 32, 10.0f, 34.0f, 48.0f, 32, 31, 40.0f, 30, 26, 34.0f, 28, 49, 0, 0,
                 0, 0, 0, 32, 32.4f, 31.8f, 40, 45, 31.4f };
-        float[] expectedOutputs_2 = { 35, 32, 28, 29, 32, 31.66f, 34.0f, 31.0f, 32, 31, 40.0f, 30, 26, 34f, 28, 32.2f, 0,
-                0, 0, 0, 0, 32, 32.4f, 31.8f, 40, 32.48f, 31.4f }; // Assuming a threshold of 10
+        float[] expectedOutputs_2 = { 35, 32, 28, 29, 32, 31.66f, 34.0f, 31.0f, 32, 31, 40.0f, 30, 26, 34f, 28, 32.2f,
+                0, 0, 0, 0, 0, 32, 32.4f, 31.8f, 40, 32.48f, 31.4f }; // Assuming a threshold of 10
 
         for (int i = 0; i < inputValues_1.length; i++) {
             // System.out.println("indoor input - expected output: "+inputValues_1[i]+" - "+expectedOutputs_1[i]);
