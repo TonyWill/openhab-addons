@@ -50,8 +50,17 @@ public class TemperatureHandler {
         TEMPERATURE_THRESHOLD = temperatureThreshold;
     }
 
+    public Float filterTemperature(float newReading, boolean powerState) {
+
+        if (!powerState) {
+            return 0.0f;
+        } else {
+            return filterTemperature(newReading);
+        }
+    }
+
     public Float filterTemperature(float newReading) {
-        
+
         if (logger != null)
             logger.trace("Filtering {} baseline {} readingsCount {}", newReading, baselineAverage, readingsCount);
         // Update baseline average periodically
@@ -103,7 +112,7 @@ public class TemperatureHandler {
                     if (baselineAverage != 0) {
                         isBaselineEstablished = true;
                         bufferIndex = readingsCount;
-                    }                    
+                    }
                     readingsCount = 0;
                     if (logger != null)
                         logger.debug("New Baseline Temperature Established: {}", baselineAverage);
